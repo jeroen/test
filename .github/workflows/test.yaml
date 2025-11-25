@@ -26,14 +26,14 @@ jobs:
       - id: lookup
         name: Get info from monorepo
         run: |
-          echo "repo_name=yolo" >> $GITHUB_OUTPUT
-          echo "foo=123" >> $GITHUB_OUTPUT
+          echo "package=curl" >> $GITHUB_OUTPUT
+          echo "universe=jeroen" >> $GITHUB_OUTPUT
           echo "bar=" >> $GITHUB_OUTPUT
         shell: bash
 
-  build:
+  test:
     needs: prepare
-    name: Build and deploy
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - id: lookup
@@ -42,3 +42,15 @@ jobs:
           echo "$variables"
         shell: bash
         env: ${{fromJSON(needs.prepare.outputs.variables)}}
+
+  build:
+    needs: prepare
+    name: Build and deploy
+    uses: r-universe-org/workflows/.github/workflows/build.yml@test
+    env: ${{fromJSON(needs.prepare.outputs.variables)}}
+    secrets:
+      DUMMY_SESSION: ${{ secrets.DUMMY_SESSION }}
+      CRANLIKEPWD: ${{ secrets.CRANLIKEPWD }}
+      GH_APP_KEY: ${{ secrets.GH_APP_KEY }}
+      SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+      BOT_TOKEN: ${{ secrets.GHPAT }}
