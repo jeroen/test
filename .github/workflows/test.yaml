@@ -31,23 +31,14 @@ jobs:
           echo "bar=" >> $GITHUB_OUTPUT
         shell: bash
 
-  test:
-    needs: prepare
-    name: Test
-    runs-on: ubuntu-latest
-    steps:
-      - id: lookup
-        name: Get info from monorepo
-        run: |
-          echo "$variables"
-        shell: bash
-        env: ${{fromJSON(needs.prepare.outputs.variables)}}
 
   build:
     needs: prepare
     name: Build and deploy
-    uses: r-universe-org/workflows/.github/workflows/build.yml@test
-    env: ${{fromJSON(needs.prepare.outputs.variables)}}
+    uses: jeroen/test/.github/workflows/build.yaml@main
+    with:
+      variables: ${{needs.prepare.outputs.variables}}
+      universe: ${{github.event.repository.name}}
     secrets:
       DUMMY_SESSION: ${{ secrets.DUMMY_SESSION }}
       CRANLIKEPWD: ${{ secrets.CRANLIKEPWD }}
