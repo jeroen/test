@@ -31,7 +31,7 @@ jobs:
 
 
   build:
-    needs: prepare
+    needs: [prepare]
     name: Build and deploy
     uses: jeroen/test/.github/workflows/build.yaml@main
     with: ${{fromJSON(needs.prepare.outputs.variables)}}
