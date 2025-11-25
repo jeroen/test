@@ -26,9 +26,7 @@ jobs:
       - id: lookup
         name: Get info from monorepo
         run: |
-          echo "package=curl" >> $GITHUB_OUTPUT
-          echo "universe=jeroen" >> $GITHUB_OUTPUT
-          echo "bar=" >> $GITHUB_OUTPUT
+          echo "repository=jeroen/curl" >> $GITHUB_OUTPUT
         shell: bash
 
 
