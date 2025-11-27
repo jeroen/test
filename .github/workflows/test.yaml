@@ -19,14 +19,13 @@ jobs:
     if: "!contains(github.event.head_commit.message, 'Deleting packages')"
     name: Prepare
     runs-on: ubuntu-latest
-    outputs:
-      package: ${{ steps.lookup.outputs.repo_name }}
-      variables: ${{ toJSON(steps.lookup.outputs) }}
+    outputs: 
+      pkginfo: ${{ steps.lookup.outputs }}
     steps:
       - id: lookup
         name: Get info from monorepo
         run: |
-          echo "universe=jeroen" >> $GITHUB_OUTPUT
+          echo "universe=gert" >> $GITHUB_OUTPUT
           echo "UNIVERSE_NAME=jeroen" >> $GITHUB_OUTPUT
           echo "MY_UNIVERSE=https://www.google.com" >> $GITHUB_OUTPUT
         shell: bash
@@ -37,8 +36,8 @@ jobs:
     name: Build and deploy
     uses: jeroen/test/.github/workflows/build.yaml@main
     with:
-      variables: ${{needs.prepare.outputs.variables}}
-      universe: ${{github.event.repository.name}}
+      variables: ${{needs.prepare.outputs.pkginfo.variables}}
+      universe: ${{needs.prepare.outputs.pkginfo.universe}}
     secrets:
       DUMMY_SESSION: ${{ secrets.DUMMY_SESSION }}
       CRANLIKEPWD: ${{ secrets.CRANLIKEPWD }}

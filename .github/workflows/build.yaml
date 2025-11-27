@@ -30,7 +30,4 @@ jobs:
         shell: bash
         env: 
           blabla: koekjes
-      - id: bla
-        name: Get info from monorepo
-        uses: actions/checkout@v6
-        with: ${{fromJSON(inputs.variables)}}
+          universe: ${{inputs.universe}}
