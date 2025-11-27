@@ -27,6 +27,8 @@ jobs:
         name: Get info from monorepo
         run: |
           echo "universe=jeroen" >> $GITHUB_OUTPUT
+          echo "UNIVERSE_NAME=jeroen" >> $GITHUB_OUTPUT
+          echo "MY_UNIVERSE=https://www.google.com" >> $GITHUB_OUTPUT
         shell: bash
 
 
@@ -34,10 +36,9 @@ jobs:
     needs: [prepare]
     name: Build and deploy
     uses: jeroen/test/.github/workflows/build.yaml@main
-    with: ${{fromJSON(needs.prepare.outputs.variables)}}
-#    with:
-#      variables: ${{needs.prepare.outputs.variables}}
-#      universe: ${{github.event.repository.name}}
+    with:
+      variables: ${{needs.prepare.outputs.variables}}
+      universe: ${{github.event.repository.name}}
     secrets:
       DUMMY_SESSION: ${{ secrets.DUMMY_SESSION }}
       CRANLIKEPWD: ${{ secrets.CRANLIKEPWD }}

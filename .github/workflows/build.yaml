@@ -17,10 +17,7 @@ on:
       SLACK_TOKEN:
       BOT_TOKEN:
 
-env:
-  UNIVERSE_NAME:  ${{ inputs.universe }}
-  MY_UNIVERSE: ${{ inputs.universe && format('https://{0}.r-universe.dev', inputs.universe) || '' }}
-  GH_APP_ID: '87942'
+env: ${{fromJSON(inputs.variables)}}
 
 jobs:
   test:
@@ -31,7 +28,8 @@ jobs:
         name: Get info from monorepo
         run: echo "Yay"
         shell: bash
-        env: ${{fromJSON(inputs.variables)}}
+        env: 
+          blabla: koekjes
       - id: bla
         name: Get info from monorepo
         uses: actions/checkout@v6
