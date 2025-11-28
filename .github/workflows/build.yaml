@@ -17,7 +17,7 @@ on:
       SLACK_TOKEN:
       BOT_TOKEN:
 
-env: ${{fromJSON(inputs.variables)}}
+env: ${{fromJSON(inputs.variables) fromJSON('{}')}}
 
 jobs:
   test:
