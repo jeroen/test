@@ -14,13 +14,16 @@ on:
 name: Build package
 run-name: ${{ github.event.head_commit.message || format('{0} (rebuild)', inputs.package) }}
 
+env:
+  BLABLA: nogmeer
+
 jobs:
   prepare:
     if: "!contains(github.event.head_commit.message, 'Deleting packages')"
     name: Prepare
     runs-on: ubuntu-latest
     outputs: 
-      pkginfo: ${{ steps.lookup.outputs }}
+      variables: ${{ toJSON(steps.lookup.outputs) }}
     steps:
       - id: lookup
         name: Get info from monorepo
@@ -36,8 +39,7 @@ jobs:
     name: Build and deploy
     uses: jeroen/test/.github/workflows/build.yaml@main
     with:
-      variables: ${{needs.prepare.outputs.pkginfo.variables}}
-      universe: ${{needs.prepare.outputs.pkginfo.universe}}
+      variables: ${{ needs.prepare.outputs.variables }}
     secrets:
       DUMMY_SESSION: ${{ secrets.DUMMY_SESSION }}
       CRANLIKEPWD: ${{ secrets.CRANLIKEPWD }}
