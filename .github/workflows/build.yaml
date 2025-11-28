@@ -17,12 +17,15 @@ on:
       SLACK_TOKEN:
       BOT_TOKEN:
 
-env: ${{fromJSON(inputs.variables)}}
+env:
+  NOTHING: ${{fromJSON(inputs.variables).NOTHING}}
+  UNIVERSE: ${{fromJSON(inputs.variables).MY_UNIVERSE}}
 
 jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    env: ${{fromJSON(inputs.variables)}}
     steps:
       - id: lookup
         name: Get info from monorepo
