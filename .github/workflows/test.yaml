@@ -40,6 +40,7 @@ jobs:
     uses: jeroen/test/.github/workflows/build.yaml@main
     with:
       variables: ${{ needs.prepare.outputs.variables }}
+    env: ${{ needs.prepare.outputs.variables }}
     secrets:
       DUMMY_SESSION: ${{ secrets.DUMMY_SESSION }}
       CRANLIKEPWD: ${{ secrets.CRANLIKEPWD }}
